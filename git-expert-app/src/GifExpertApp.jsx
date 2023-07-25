@@ -1,22 +1,25 @@
 import { useState } from "react";
 import "./estilos.css";
+import { AddCategory } from "./components/AddCategory";
+import { GifGrid } from "./components/GifGrid";
 export const GifExpertApp = () => {
-  const [categories, setcategories] = useState([
-    "one piece",
-    "kimetsu no yaiba",
-  ]);
-  const onAddCategory = () => {
-    setcategories([...categories], "pornHub");
+  const [categories, setCategories] = useState(["kimetsu no yaiba"]);
+  const onAddCategory = (newCategory) => {
+    if (categories.includes(newCategory)) return;
+    // categories.push(newCategory);
+    setCategories([newCategory, ...categories]);
+
+    // de estas formas se puede agregar la arreglo sin mutarlo
+    // setcategories((cat) => [...cat, "halo"]);
   };
   return (
     <>
       <h1>GifExpertApp</h1>
-      <ol>
-        {categories.map((category) => {
-          return <li key={category}>{category} </li>;
-        })}
-      </ol>
-      <button onClick={onAddCategory}>nueva categoria</button>
+      <AddCategory onNewCategory={onAddCategory} />
+
+      {categories.map((category) => (
+        <GifGrid key={category} category={category} />
+      ))}
     </>
   );
 };
